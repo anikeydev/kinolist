@@ -16,20 +16,38 @@ for (const genreHtml of topGenresListHtml) {
     $categories.insertAdjacentHTML('beforeend', genreHtml)
 }
 
-const filmsToGenreArr =  await apiRequestFilmToGenre()
-const topFilmsToGenre = filmsToGenreArr.items.map(item => item).slice(0, 10)
-console.log(topFilmsToGenre)
-const topFilmsToGenreListHtml = topFilmsToGenre.map(item => {
-    return `
-        <li class="filmsList__film-item film-item" data-kid="${item.kinopoiskId}">
-            <img src="${item.posterUrlPreview}" class="film-item__poster" alt="${item.nameOriginal}"/>
-            <p class="film-item__name">${item.nameRu}</p>
-        </li>
-    `
-})
-
-const $filmsList = document.querySelector('.filmsList')
-
-for (const filmHtml of topFilmsToGenreListHtml) {
-    $filmsList.insertAdjacentHTML('beforeend', filmHtml)
+async function createdTopListOfGenre(genreId = 1) {
+    const $filmsList = document.querySelector('.filmsList')
+    $filmsList.innerHTML = ''
+    const filmsToGenreArr = await apiRequestFilmToGenre(genreId)
+    const topFilmsToGenre = filmsToGenreArr.items.map(item => item).slice(0, 10)
+    // console.log(topFilmsToGenre)
+    const topFilmsToGenreListHtml = topFilmsToGenre.map(item => {
+        return `
+            <li class="filmsList__film-item film-item" data-kid="${item.kinopoiskId}">
+                <img src="${item.posterUrlPreview}" class="film-item__poster" alt="${item.nameOriginal}"/>
+                <p class="film-item__name">${item.nameRu}</p>
+            </li>
+        `
+    })
+    for (const filmHtml of topFilmsToGenreListHtml) {
+            $filmsList.insertAdjacentHTML('beforeend', filmHtml)
+        }
 }
+
+// const $filmsList = document.querySelector('.filmsList')
+
+// for (const filmHtml of topFilmsToGenreListHtml) {
+//     $filmsList.insertAdjacentHTML('beforeend', filmHtml)
+// }
+
+function eventHandler(event) {
+    event.preventDefault()
+    if (event.target.dataset.id) {
+        console.log(event.target.dataset.id);
+        createdTopListOfGenre(event.target.dataset.id)
+    }
+}
+
+document.addEventListener('click', eventHandler)
+document.addEventListener('DOMContentLoaded', createdTopListOfGenre())

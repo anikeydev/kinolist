@@ -1,8 +1,9 @@
 import './styles/style.sass'
+import './styles/loader.css'
 import {apiRequestFilmToGenre, apiRequestGenres} from './api'
 
 const genresArr = await apiRequestGenres()
-const topGenres = genresArr.slice(0, 10)
+const topGenres = genresArr.slice(0, 15)
 // console.log(topGenres);
 
 
@@ -18,21 +19,24 @@ for (const genreHtml of topGenresListHtml) {
 
 async function createdTopListOfGenre(genreId = 1) {
     const $filmsList = document.querySelector('.filmsList')
-    $filmsList.innerHTML = ''
+    $filmsList.innerHTML = '<span class="loader"></span>'
     const filmsToGenreArr = await apiRequestFilmToGenre(genreId)
-    const topFilmsToGenre = filmsToGenreArr.items.map(item => item).slice(0, 10)
-    // console.log(topFilmsToGenre)
-    const topFilmsToGenreListHtml = topFilmsToGenre.map(item => {
-        return `
-            <li class="filmsList__film-item film-item" data-kid="${item.kinopoiskId}">
-                <img src="${item.posterUrlPreview}" class="film-item__poster" alt="${item.nameOriginal}"/>
-                <p class="film-item__name">${item.nameRu}</p>
-            </li>
-        `
-    })
-    for (const filmHtml of topFilmsToGenreListHtml) {
-            $filmsList.insertAdjacentHTML('beforeend', filmHtml)
-        }
+    setTimeout(() => {
+        const topFilmsToGenre = filmsToGenreArr.items.map(item => item).slice(0, 15)
+        // console.log(topFilmsToGenre)
+        const topFilmsToGenreListHtml = topFilmsToGenre.map(item => {
+            return `
+                <li class="filmsList__film-item film-item" data-kid="${item.kinopoiskId}">
+                    <img src="${item.posterUrlPreview}" class="film-item__poster" alt="${item.nameOriginal}"/>
+                    <p class="film-item__name">${item.nameRu}</p>
+                </li>
+            `
+        })
+        $filmsList.innerHTML = ''
+        for (const filmHtml of topFilmsToGenreListHtml) {
+                $filmsList.insertAdjacentHTML('beforeend', filmHtml)
+            }
+    }, 1000)
 }
 
 // const $filmsList = document.querySelector('.filmsList')

@@ -18,11 +18,11 @@ for (const genreHtml of topGenresListHtml) {
 
 const filmsToGenreArr =  await apiRequestFilmToGenre()
 const topFilmsToGenre = filmsToGenreArr.items.map(item => item).slice(0, 10)
-// console.log(topFilmsToGenre)
+console.log(topFilmsToGenre)
 const topFilmsToGenreListHtml = topFilmsToGenre.map(item => {
     return `
         <li class="filmsList__film-item film-item" data-kid="${item.kinopoiskId}">
-            <img src="${item.posterUrl}" alt="${item.nameOriginal}"/>
+            <img src="${item.posterUrlPreview}" class="film-item__poster" alt="${item.nameOriginal}"/>
             <p class="film-item__name">${item.nameRu}</p>
         </li>
     `

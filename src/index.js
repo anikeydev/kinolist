@@ -57,4 +57,4 @@ function eventHandler(event) {
 document.addEventListener('click', eventHandler)
 document.addEventListener('DOMContentLoaded', createdTopListOfGenre())
 
-createSlider()
+await createSlider()

@@ -2,6 +2,8 @@ import { apiRequestFilmToGenre } from "./api"
 
 let index = 1
 
+const $slider = document.querySelector('.slider')
+
 async function createSlider(genre = 1) {
     const filmsToGenre = await apiRequestFilmToGenre(genre)
     const topFilms = filmsToGenre.items.slice(0, 5)
@@ -24,12 +26,30 @@ async function createSlider(genre = 1) {
     })
 
     for (const $slide of $slides) {
+        $slider.insertAdjacentHTML('beforeend', $slide)
+    }
+
+    showSlider(index)
+}
+
+function showSlider(i) {
+    const $slides = document.querySelectorAll('.slider__item')
+
+    for (const $slide of $slides) {
         $slide.style.display = 'none'
     }
 
-    return $slides
+    $slides[i - 1].style.display = 'block'
+
+    setTimeout(() => {
+        if (index < $slides.length) {
+            index += 1
+            showSlider(index)
+        } else {
+            index = 1
+            showSlider(index)
+        }
+    }, 4000)
 }
-
-
 
 export default createSlider

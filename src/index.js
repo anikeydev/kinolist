@@ -1,6 +1,7 @@
 import './styles/style.sass'
 import './styles/loader.css'
 import {apiRequestFilmToGenre, apiRequestGenres} from './api'
+import createSlider from './slider'
 
 const genresArr = await apiRequestGenres()
 const topGenres = genresArr.slice(0, 15)
@@ -22,7 +23,7 @@ async function createdTopListOfGenre(genreId = 1) {
     $filmsList.innerHTML = '<span class="loader"></span>'
     const filmsToGenreArr = await apiRequestFilmToGenre(genreId)
     setTimeout(() => {
-        const topFilmsToGenre = filmsToGenreArr.items.map(item => item).slice(0, 15)
+        const topFilmsToGenre = filmsToGenreArr.items.map(item => item).slice(5, 20)
         // console.log(topFilmsToGenre)
         const topFilmsToGenreListHtml = topFilmsToGenre.map(item => {
             return `
@@ -55,3 +56,5 @@ function eventHandler(event) {
 
 document.addEventListener('click', eventHandler)
 document.addEventListener('DOMContentLoaded', createdTopListOfGenre())
+
+createSlider()

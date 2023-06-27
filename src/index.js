@@ -47,14 +47,16 @@ async function createdTopListOfGenre(genreId = 1) {
 // }
 
 function eventHandler(event) {
-    event.preventDefault()
     if (event.target.dataset.id) {
-        console.log(event.target.dataset.id);
-        createdTopListOfGenre(event.target.dataset.id)
+        event.preventDefault()
+        createMain(event.target.dataset.id)
     }
 }
 
-document.addEventListener('click', eventHandler)
-document.addEventListener('DOMContentLoaded', createdTopListOfGenre())
+function createMain(genre) {
+    createdTopListOfGenre(genre)
+    createSlider(genre)
+}
 
-await createSlider()
+document.addEventListener('click', eventHandler)
+document.addEventListener('DOMContentLoaded', createMain())

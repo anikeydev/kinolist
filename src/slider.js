@@ -1,10 +1,15 @@
 import { apiRequestFilmToGenre } from "./api"
 
 let index = 1
+let timer = null
 
 const $slider = document.querySelector('.slider')
 
 async function createSlider(genre = 1) {
+    $slider.innerHTML = ''
+    if (timer !== null) {
+        clearTimeout(timer)
+    }
     const filmsToGenre = await apiRequestFilmToGenre(genre)
     const topFilms = filmsToGenre.items.slice(0, 5)
     const imageArr = topFilms.map(item => {
@@ -17,8 +22,8 @@ async function createSlider(genre = 1) {
 
     const $slides = imageArr.map(item => {
         return `
-            <div class="slider__item">
-                <a href="${item.link}" class="slider__link">
+            <div href="${item.link}" class="slider__item">
+                <a href="${item.link}" class="slider__link" target="_blank">
                     <img class="slider__img" src="${item.img}" alt="${item.name}"}>
                 </a>
             </div>
@@ -41,7 +46,7 @@ function showSlider(i) {
 
     $slides[i - 1].style.display = 'block'
 
-    setTimeout(() => {
+    timer = setTimeout(() => {
         if (index < $slides.length) {
             index += 1
             showSlider(index)

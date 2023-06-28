@@ -1,11 +1,11 @@
 import { apiRequestFilmToGenre } from "./api"
 
-export default async function createFilmsList(parentNode, genreId = 1) {
+export default async function createFilmsList(parentNode, genreId = 1, page = 1) {
     const $filmsList = document.createElement('div')
     $filmsList.classList.add('filmsList')
     $filmsList.classList.add('main__filmsList')
-    const filmsToGenreArr = await apiRequestFilmToGenre(genreId)
-    const topFilmsToGenre = filmsToGenreArr.items.map(item => item).slice(5, 20)
+    const filmsToGenreArr = await apiRequestFilmToGenre(genreId, page)
+    const topFilmsToGenre = filmsToGenreArr.items.map(item => item).slice(5)
     const topFilmsToGenreListHtml = topFilmsToGenre.map(item => {
         return `
             <li class="filmsList__film-item film-item" data-kid="${item.kinopoiskId}">
@@ -19,6 +19,7 @@ export default async function createFilmsList(parentNode, genreId = 1) {
     for (const filmHtml of topFilmsToGenreListHtml) {
             $filmsList.insertAdjacentHTML('beforeend', filmHtml)
         }
-
+        
     parentNode.appendChild($filmsList)
 }
+

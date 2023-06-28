@@ -3,10 +3,10 @@ import { apiRequestFilmToGenre } from "./api"
 let index = 1
 let timer = null
 
-const $slider = document.querySelector('.slider')
+const $slider = document.createElement('div')
+$slider.classList.add('slider')
 
-async function createSlider(genre = 1) {
-    $slider.innerHTML = ''
+async function createSlider(parentNode, genre = 1) {
     if (timer !== null) {
         clearTimeout(timer)
     }
@@ -19,6 +19,8 @@ async function createSlider(genre = 1) {
             link: `https://www.kinopoisk.ru/film/${item.kinopoiskId}/`
         }
     })
+
+    $slider.innerHTML = ''
 
     const $slides = imageArr.map(item => {
         return `
@@ -33,6 +35,8 @@ async function createSlider(genre = 1) {
     for (const $slide of $slides) {
         $slider.insertAdjacentHTML('beforeend', $slide)
     }
+
+    parentNode.appendChild($slider)
 
     showSlider(index)
 }

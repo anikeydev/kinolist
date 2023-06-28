@@ -1,9 +1,9 @@
 import './styles/style.sass'
 import './styles/loader.css'
 
-import createSlider from './slider'
-import createCategories from './createCategories'
-import createFilmsList from './createFilmsList'
+import createSlider from './js/slider'
+import createCategories from './js/createCategories'
+import createFilmsList from './js/createFilmsList'
 
 const $main = document.querySelector('.main')
 const $content = document.querySelector('.main__content')
